@@ -1,0 +1,8 @@
+{
+    "tests.dummy_tests.TC1": {"duration": 1.0},
+    "tests.dummy_tests.TC2": {"duration": 1.0},
+    "tests.dummy_tests.TC4": {"duration": 1.0},
+    "tests.dummy_tests.TC5": {"duration": 10.0},
+    "tests.dummy_tests.TC6": {"duration": 1.0}
+}
+

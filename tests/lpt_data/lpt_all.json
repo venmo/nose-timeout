@@ -1,0 +1,38 @@
+{
+    "tests.dummy_tests.TC1": {"duration": 1.0, "tests": [
+        {"duration": 5.1, "name": "test_TC1_1"},
+        {"duration": 1.0, "name": "test_TC1_2"},
+        {"duration": 2.1, "name": "test_TC1_3"},
+        {"duration": 0.2, "name": "test_TC1_4"}
+    ]},
+    "tests.dummy_tests.TC2": {"duration": 1.0, "tests": [
+        {"duration": 4.1, "name": "test_TC2_1"},
+        {"duration": 0.1, "name": "test_TC2_2"},
+        {"duration": 0.1, "name": "test_TC2_3"},
+        {"duration": 0.2, "name": "test_TC2_4"}
+    ]},
+    "tests.dummy_tests.TC3": {"duration": 9.0, "tests": [
+        {"duration": 1.1, "name": "test_TC3_1"},
+        {"duration": 2.1, "name": "test_TC3_2"},
+        {"duration": 0.1, "name": "test_TC3_3"},
+        {"duration": 9.2, "name": "test_TC3_4"}
+    ]},
+    "tests.dummy_tests.TC4": {"duration": 1.0, "tests": [
+        {"duration": 1.1, "name": "test_TC4_1"},
+        {"duration": 2.1, "name": "test_TC4_2"},
+        {"duration": 0.1, "name": "test_TC4_3"},
+        {"duration": 9.2, "name": "test_TC4_4"}
+    ]},
+    "tests.dummy_tests.TC5": {"duration": 10.0, "tests": [
+        {"duration": 1.1, "name": "test_TC5_1"},
+        {"duration": 2.1, "name": "test_TC5_2"},
+        {"duration": 5.1, "name": "test_TC5_3"},
+        {"duration": 4.2, "name": "test_TC5_4"}
+    ]},
+    "tests.dummy_tests.TC6": {"duration": 1.0, "tests": [
+        {"duration": 1.1, "name": "test_TC6_1"},
+        {"duration": 2.1, "name": "test_TC6_2"},
+        {"duration": 0.1, "name": "test_TC6_3"},
+        {"duration": 0.2, "name": "test_TC6_4"}
+    ]}
+}
