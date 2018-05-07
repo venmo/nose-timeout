@@ -35,7 +35,6 @@ class NoseTimeout(Plugin):
 
     def configure(self, options, config):
         self.timeout = options.timeout
-        print("Timeout: " + self.timeout)
         if not self._options_are_valid():
             self.enabled = False
             return
