@@ -55,14 +55,15 @@ class NoseTimeout(Plugin):
         return True
 
     def prepareTestCase(self, test):
-        if self.timeout:
+        test_timeout = getattr(getattr(test.test, test.test._testMethodName), 'timeout', self.timeout)
+        if test_timeout:
             def timeout(result):
                 def __handler(signum, frame):
-                    msg = "Function execution is longer than %s second(s). Aborted." % self.timeout
+                    msg = "Function execution is longer than %s second(s). Aborted." % test_timeout
                     raise TimeoutException(msg)
 
                 sig_handler = signal.signal(signal.SIGALRM, __handler)
-                signal.alarm(self.timeout)
+                signal.alarm(test_timeout)
                 try:
                     test.test(result)
                 except TimeoutException as e:
