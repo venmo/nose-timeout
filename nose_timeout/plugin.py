@@ -9,6 +9,8 @@ from backports.shutil_get_terminal_size import get_terminal_size
 
 logger = logging.getLogger('nose.plugins.nose_timeout')
 
+failure_output = logging.getLogger('test_failure_errors')
+failure_output
 
 class TimeoutException(Exception):
     message = "Stopped by timeout"
@@ -23,6 +25,7 @@ class NoseTimeout(Plugin):
     def __init__(self):
         Plugin.__init__(self)
         self.timeout = 0
+        failure_output.setLevel(logging.NOTSET)
 
     def options(self, parser, env):
         parser.add_option(
@@ -61,7 +64,7 @@ class NoseTimeout(Plugin):
         if test_timeout:
             def timeout(result):
                 def __handler(signum, frame):
-                    dump_stacks()
+                    dump_stacks(test.id())
                     msg = "Function execution is longer than %s second(s). Aborted." % test_timeout
                     raise TimeoutException(msg)
 
@@ -77,9 +80,22 @@ class NoseTimeout(Plugin):
                     signal.alarm(0)
             return timeout
 
+    def addError(self, test, err):
+        tb = traceback.format_exception(*err)
+        failure_output.error("\n{line}\nERROR: in {test_name}\n{line}\n{tb}\n".format(test_name=str(test.id()),
+                                                                            line='-' * 70,
+                                                                            tb=str("".join(tb))))
 
-def dump_stacks():
+    def addFailure(self, test, err):
+        tb = traceback.format_exception(*err)
+        failure_output.error("\n{line}\nERROR: in {test_name}\n{line}\n{tb}\n".format(test_name=str(test.id()),
+                                                                            line='-' * 70,
+                                                                            tb=str("".join(tb))))
+
+
+def dump_stacks(test_id):
     """Dump the stacks of all threads except the current thread"""
+    out = ''
     current_ident = threading.current_thread().ident
     for thread_ident, frame in sys._current_frames().items():
         if thread_ident == current_ident:
@@ -90,8 +106,10 @@ def dump_stacks():
                 break
         else:
             thread_name = '<unknown>'
-        write_title('Stack of %s (%s)' % (thread_name, thread_ident))
-        write(''.join(traceback.format_stack(frame)))
+        out += write_title('Stack of %s (%s)' % (thread_name, thread_ident))
+        out += write(''.join(traceback.format_stack(frame)))
+
+    failure_output.error("TIMEOUT: %s\n%s", test_id, out)
 
 
 def write_title(title, stream=None, sep='~'):
@@ -103,11 +121,15 @@ def write_title(title, stream=None, sep='~'):
     if stream is None:
         stream = sys.stdout
     width, _ = get_terminal_size()
+    if width < 70:
+        width = 70
     fill = int((width - len(title) - 2) / 2)
     line = ' '.join([sep * fill, title, sep * fill])
     if len(line) < width:
         line += sep * (width - len(line))
-    stream.write('\n' + line + '\n')
+    text =  '\n' + line + '\n'
+    stream.write(text)
+    return text
 
 
 def write(text, stream=None):
@@ -118,3 +140,4 @@ def write(text, stream=None):
     if stream is None:
         stream = sys.stdout
     stream.write(text)
+    return text
