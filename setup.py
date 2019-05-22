@@ -89,7 +89,7 @@ setup(
     platforms=['any'],
     classifiers=CLASSIFIERS,
     install_requires=[
-        'nose',
+        'nose', 'backports.shutil_get_terminal_size'
     ],
     entry_points = {
         'nose.plugins.0.10': [
